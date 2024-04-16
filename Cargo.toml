@@ -62,3 +62,8 @@ lto = "thin"
 incremental = true
 debug-assertions = true
 debug = true
+
+[patch.crates-io]
+ark-ff = { path = "../ark-algebra/ff" }
+ark-poly = { path = "../ark-algebra/poly" }
+ark-ec = { path = "../ark-algebra/ec" }
