@@ -1,8 +1,8 @@
 use ark_ff::Fp256;
-#[cfg(not(target_vendor = "risc0"))]
+#[cfg(not(any(target_vendor = "risc0", target_vendor = "succinct")))]
 use ark_ff::MontBackend;
 
-#[cfg(not(target_vendor = "risc0"))]
+#[cfg(not(any(target_vendor = "risc0", target_vendor = "succinct")))]
 mod mont {
     use ark_ff::fields::MontConfig;
 
@@ -12,9 +12,9 @@ mod mont {
     pub struct FqConfig;
 }
 
-#[cfg(target_vendor = "risc0")]
+#[cfg(any(target_vendor = "risc0", target_vendor = "succinct"))]
 mod plain {
-    #[cfg(not(target_vendor = "risc0"))]
+    #[cfg(not(any(target_vendor = "risc0", target_vendor = "succinct")))]
     use ark_ff::MontBackend;
     use ark_ff::{
         fields::{
@@ -57,7 +57,7 @@ mod plain {
             PhantomData,
         );
 
-        #[cfg(not(target_vendor = "risc0"))]
+        #[cfg(not(any(target_vendor = "risc0", target_vendor = "succinct")))]
         type FullImplConfig = MontBackend<super::mont::FqConfig, 4>;
 
         // const TWO_ADICITY: u32 = 42;
@@ -68,14 +68,14 @@ mod plain {
     // pub type Fq = Fp256<Fp256PlainBackend<FqConfig>>;
 }
 
-#[cfg(target_vendor = "risc0")]
+#[cfg(any(target_vendor = "risc0", target_vendor = "succinct"))]
 use ark_ff::fields::plain_backend;
-#[cfg(target_vendor = "risc0")]
+#[cfg(any(target_vendor = "risc0", target_vendor = "succinct"))]
 pub use plain::*;
-#[cfg(target_vendor = "risc0")]
+#[cfg(any(target_vendor = "risc0", target_vendor = "succinct"))]
 pub type Fq = Fp256<plain_backend::Fp256PlainBackend<FqConfig>>;
 
-#[cfg(not(target_vendor = "risc0"))]
+#[cfg(not(any(target_vendor = "risc0", target_vendor = "succinct")))]
 pub use mont::*;
-#[cfg(not(target_vendor = "risc0"))]
+#[cfg(not(any(target_vendor = "risc0", target_vendor = "succinct")))]
 pub type Fq = Fp256<MontBackend<FqConfig, 4>>;
